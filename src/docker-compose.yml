@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  qubiz.identityserver:
+    image: qubiz.identityserver
+    build:
+      context: ./Qubiz.IdentityServer
+      dockerfile: Dockerfile
