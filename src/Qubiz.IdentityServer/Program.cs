@@ -11,6 +11,8 @@ namespace Qubiz.IdentityServer
     {
         public static void Main(string[] args)
         {
+
+            //test commit
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
