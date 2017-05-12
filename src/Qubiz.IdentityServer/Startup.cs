@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +48,12 @@ namespace Qubiz.IdentityServer
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // IdentityServer4
+            services
+                .AddIdentityServer()
+                .AddInMemoryApiResources(Identity.Config.GetApiResources())
+                .AddInMemoryClients(Identity.Config.GetClients());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +76,8 @@ namespace Qubiz.IdentityServer
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseIdentityServer();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
