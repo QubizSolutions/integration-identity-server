@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Qubiz.IdentityServer.Data;
 using Qubiz.IdentityServer.Models;
 using Qubiz.IdentityServer.Services;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Qubiz.IdentityServer
 {
@@ -43,7 +48,11 @@ namespace Qubiz.IdentityServer
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -75,6 +84,8 @@ namespace Qubiz.IdentityServer
 
             app.UseStaticFiles();
 
+            app.UseMiddleware<IndentDiscoveryDocumentJsonMiddleware>();
+
             app.UseIdentity();
 
             app.UseIdentityServer();
@@ -87,6 +98,57 @@ namespace Qubiz.IdentityServer
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public class IndentDiscoveryDocumentJsonMiddleware
+        {
+            private readonly RequestDelegate next;
+
+            private static readonly JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                NullValueHandling = NullValueHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+
+            public IndentDiscoveryDocumentJsonMiddleware(RequestDelegate next)
+            {
+                this.next = next;
+            }
+
+            public async Task Invoke(HttpContext context)
+            {
+                if (context.Request.Path.StartsWithSegments("/.well-known/openid-configuration"))
+                {
+                    Stream originalResponseBody = context.Response.Body;
+
+                    try
+                    {
+                        using (var memoryResponseStream = new MemoryStream())
+                        {
+                            context.Response.Body = memoryResponseStream;
+
+                            await next(context);
+
+                            memoryResponseStream.Position = 0;
+                            string discoDocJsonUnindented = new StreamReader(memoryResponseStream).ReadToEnd();
+
+                            string discoDocJsonIndented = JsonConvert.SerializeObject(JObject.Parse(discoDocJsonUnindented), settings);
+
+                            context.Response.Body = originalResponseBody;
+                            await context.Response.WriteAsync(discoDocJsonIndented);
+                        }
+                    }
+                    finally
+                    {
+                        context.Response.Body = originalResponseBody;
+                    }
+                }
+                else
+                {
+                    await next(context);
+                }
+            }
         }
     }
 }
