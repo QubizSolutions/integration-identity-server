@@ -96,7 +96,7 @@ namespace Qubiz.IdentityServer
             {
                 AuthenticationScheme = "Google",
                 DisplayName = "Google",
-                SignInScheme = IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                SignInScheme = "Identity.External",
 
                 ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
                 ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
