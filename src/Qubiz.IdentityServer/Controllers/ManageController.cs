@@ -69,8 +69,7 @@ namespace Qubiz.IdentityServer.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        //POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)

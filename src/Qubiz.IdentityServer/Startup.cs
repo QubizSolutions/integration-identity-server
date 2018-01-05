@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace Qubiz.IdentityServer
 {
-    public class Startup
+public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+        var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);

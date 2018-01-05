@@ -48,3 +48,8 @@ textarea {
         display: none;
     }
 }
+
+.largetopmargin {
+    margin-top: 50px;
+    height: 20%;
+}
