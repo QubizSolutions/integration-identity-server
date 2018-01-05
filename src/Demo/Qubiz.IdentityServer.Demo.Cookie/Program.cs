@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace Qubiz.IdentityServer
+namespace Qubiz.IdentityServer.Demo.Cookie
 {
     public class Program
     {
@@ -9,6 +9,7 @@ namespace Qubiz.IdentityServer
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://0.0.0.0:6001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseApplicationInsights()

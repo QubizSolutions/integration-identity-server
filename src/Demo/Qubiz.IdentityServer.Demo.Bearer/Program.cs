@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
-namespace Qubiz.IdentityServer
+namespace Qubiz.IdentityServer.Demo.Bearer
 {
     public class Program
     {
@@ -10,6 +14,7 @@ namespace Qubiz.IdentityServer
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();

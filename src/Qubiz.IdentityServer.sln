@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qubiz.IdentityServer", "Qubiz.IdentityServer\Qubiz.IdentityServer.csproj", "{E30912B0-3780-4504-96DD-40259F78F32A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{359DCE07-7F8A-431F-879C-1A904CA0740F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{9A541D1C-0007-4D2B-8621-99BA052C69B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qubiz.IdentityServer.Demo.Bearer", "Demo\Qubiz.IdentityServer.Demo.Bearer\Qubiz.IdentityServer.Demo.Bearer.csproj", "{8E65FB5A-AC47-482F-9000-08D0E0FA8040}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qubiz.IdentityServer.Demo.Cookie", "Demo\Qubiz.IdentityServer.Demo.Cookie\Qubiz.IdentityServer.Demo.Cookie.csproj", "{258743DC-9A0F-4400-8C83-9AD65CB56D59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +27,20 @@ Global
 		{359DCE07-7F8A-431F-879C-1A904CA0740F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359DCE07-7F8A-431F-879C-1A904CA0740F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359DCE07-7F8A-431F-879C-1A904CA0740F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E65FB5A-AC47-482F-9000-08D0E0FA8040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E65FB5A-AC47-482F-9000-08D0E0FA8040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E65FB5A-AC47-482F-9000-08D0E0FA8040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E65FB5A-AC47-482F-9000-08D0E0FA8040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258743DC-9A0F-4400-8C83-9AD65CB56D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258743DC-9A0F-4400-8C83-9AD65CB56D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258743DC-9A0F-4400-8C83-9AD65CB56D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258743DC-9A0F-4400-8C83-9AD65CB56D59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E65FB5A-AC47-482F-9000-08D0E0FA8040} = {9A541D1C-0007-4D2B-8621-99BA052C69B9}
+		{258743DC-9A0F-4400-8C83-9AD65CB56D59} = {9A541D1C-0007-4D2B-8621-99BA052C69B9}
 	EndGlobalSection
 EndGlobal
