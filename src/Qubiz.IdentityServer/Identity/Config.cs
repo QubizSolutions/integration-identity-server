@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -6,6 +7,21 @@ namespace Qubiz.IdentityServer.Identity
 {
     public class Config
     {
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new[]
+            {
+                // some standard scopes from the OIDC spec
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+
+                // custom identity resource with some consolidated claims
+                new IdentityResource("custom.profile", new[] { JwtClaimTypes.Name, JwtClaimTypes.Email, "location" })
+            };
+        }
+
         // scopes define the API resources in your system
         public static IEnumerable<ApiResource> GetApiResources()
         {

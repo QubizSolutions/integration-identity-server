@@ -5,12 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Qubiz.IdentityServer.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Design;
+using System.Reflection;
 
 namespace Qubiz.IdentityServer.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public ApplicationDbContext()
+        {
+
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,6 +32,18 @@ namespace Qubiz.IdentityServer.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+        }
+    }
+
+    public class TemporaryDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+  
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            builder.UseSqlServer("Server=ST16;Initial Catalog=Qubiz.Identity;Persist Security Info=False;Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;",
+                optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name));
+            return new ApplicationDbContext(builder.Options);
         }
     }
 }

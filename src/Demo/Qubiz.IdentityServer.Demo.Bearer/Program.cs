@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace Qubiz.IdentityServer.Demo.Bearer
 {
@@ -21,5 +22,7 @@ namespace Qubiz.IdentityServer.Demo.Bearer
 
             host.Run();
         }
+
+    
     }
 }

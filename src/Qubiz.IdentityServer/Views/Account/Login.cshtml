@@ -64,7 +64,7 @@
             <h4>Choose a Qubiz identity provider below to log in.</h4>
             <hr />
             @{
-                var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+                var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 if (loginProviders.Count == 0)
                 {
                     <div>
@@ -81,8 +81,8 @@
                             <p>
                                 @foreach (var provider in loginProviders)
                                 {
-                                    <button value="Google"><input type="image" src="~/images/google.png" width="100" height="100" name="provider" style="cursor:pointer" value="Login" title="Log in using your @provider.DisplayName account" /></button>
-                                    @*<button type="submit" class="btn btn-default" name="provider" value="Login" title="Log in using your @provider.DisplayName account">@provider.AuthenticationScheme</button>*@
+                                    @*<button value="Google"><input type="image" src="~/images/google.png" width="100" height="100" name="provider" style="cursor:pointer" value="Login" title="Log in using your @provider.DisplayName account" /></button>*@
+                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img width="150" height="150" src="~/images/@(provider.Name + ".png")"/></button>
                                 }
                             </p>
                         </div>

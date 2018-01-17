@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,19 +11,45 @@ using Newtonsoft.Json.Linq;
 using Qubiz.IdentityServer.Data;
 using Qubiz.IdentityServer.Models;
 using Qubiz.IdentityServer.Services;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
+using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights.Extensibility;
+using System.Collections.Generic;
+using System.Security.Claims;
+using IdentityModel;
+using System.Linq;
+using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Qubiz.IdentityServer
 {
-public class Startup
+    public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
-        var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            Console.Title = "IdentityServer4";
+
+            Log.Logger = new LoggerConfiguration()
+                     .MinimumLevel.Debug()
+                     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                     .MinimumLevel.Override("System", LogEventLevel.Warning)
+                     .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                     .Enrich.FromLogContext()
+                     .WriteTo.Console(outputTemplate:
+                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                        theme: AnsiConsoleTheme.Literate)
+                     .CreateLogger();
+
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
@@ -36,34 +62,65 @@ public class Startup
         }
 
         public IConfigurationRoot Configuration { get; }
+        public object Clients { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+
+            TelemetryConfiguration.Active.DisableTelemetry = true;
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc()
-                .AddJsonOptions(options =>
+            services.AddMvc();
+
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryIdentityResources(Identity.Config.GetIdentityResources())
+                .AddInMemoryApiResources(Identity.Config.GetApiResources())
+                .AddInMemoryClients(Identity.Config.GetClients())
+                .AddAspNetIdentity<ApplicationUser>();
+
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
                 {
-                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.ClientId = "950973578477-pc9tc6c99e1mpcdhh1o6jb5e13h13cmo.apps.googleusercontent.com";
+                    options.ClientSecret = "OQrvEOX0y5ZJ8Hy_keFSfR5Y";
                 });
 
-            // Add application services.
+
+            //Azure AD Auth
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+                // Configure the OWIN pipeline to use cookie auth.
+                .AddCookie()
+                // Configure the OWIN pipeline to use OpenID Connect auth.
+                .AddOpenIdConnect("Azure", option =>
+                {
+                    option.ClientId = "123"; // Configuration["AzureAD:ClientId"];
+                    option.Authority = "https://login.microsoftonline.com/{0}"; // String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
+                    option.SignedOutRedirectUri = "123"; //Configuration["AzureAd:PostLogoutRedirectUri"];
+                });
+
+
+
+
+            //// Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // IdentityServer4
-            services
-                .AddIdentityServer()
-                .AddInMemoryApiResources(Identity.Config.GetApiResources())
-                .AddInMemoryClients(Identity.Config.GetClients());
+
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -86,21 +143,9 @@ public class Startup
 
             app.UseMiddleware<IndentDiscoveryDocumentJsonMiddleware>();
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
             app.UseIdentityServer();
-
-            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-
-            app.UseGoogleAuthentication(new GoogleOptions
-            {
-                AuthenticationScheme = "Google",
-                DisplayName = "Google",
-                SignInScheme = "Identity.External",
-
-                ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com",
-                ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo"
-            });
 
             app.UseMvc(routes =>
             {
@@ -108,6 +153,9 @@ public class Startup
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+
         }
 
         public class IndentDiscoveryDocumentJsonMiddleware

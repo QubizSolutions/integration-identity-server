@@ -3,6 +3,8 @@
     "Microsoft.NETCore.App": {
       "version": "1.1.1",
       "type": "platform"
-    }
+    },
+    "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.0.0",
+    "Serilog.Extensions.Logging": "1.0.0"
   }
 }

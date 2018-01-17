@@ -18,5 +18,20 @@ namespace Qubiz.IdentityServer.Models.AccountViewModels
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public bool EnableLocalLogin;
+
+        public bool IsExternalLoginOnly;
+
+        public bool AllowRememberLogin;
+
+        public bool RememberLogin;
+
+        public string ReturnUrl;
+
+        public string Username;
+
+        public string ExternalLoginScheme;
+
     }
 }

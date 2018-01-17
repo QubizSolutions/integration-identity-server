@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
+using Microsoft.Extensions.Logging;
 
 namespace Qubiz.IdentityServer
 {
@@ -11,8 +15,14 @@ namespace Qubiz.IdentityServer
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
+                   .ConfigureLogging(builder =>
+                   {
+                       builder.ClearProviders();
+                       builder.AddSerilog();
+                   })
                 .UseApplicationInsights()
                 .Build();
+
 
             host.Run();
         }
