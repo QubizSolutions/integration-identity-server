@@ -1,0 +1,110 @@
+﻿@model Qubiz.IdentityServer.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>UserProfile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mobile" class="control-label"></label>
+                <input asp-for="Mobile" class="form-control" />
+                <span asp-validation-for="Mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkypeID" class="control-label"></label>
+                <input asp-for="SkypeID" class="form-control" />
+                <span asp-validation-for="SkypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractStartDate" class="control-label"></label>
+                <input asp-for="ContractStartDate" class="form-control" />
+                <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkStartDate" class="control-label"></label>
+                <input asp-for="WorkStartDate" class="form-control" />
+                <span asp-validation-for="WorkStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarModel" class="control-label"></label>
+                <input asp-for="CarModel" class="form-control" />
+                <span asp-validation-for="CarModel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarRegistration" class="control-label"></label>
+                <input asp-for="CarRegistration" class="form-control" />
+                <span asp-validation-for="CarRegistration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TShirtSize" class="control-label"></label>
+                <input asp-for="TShirtSize" class="form-control" />
+                <span asp-validation-for="TShirtSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IDIssueDate" class="control-label"></label>
+                <input asp-for="IDIssueDate" class="form-control" />
+                <span asp-validation-for="IDIssueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IDExpiryDate" class="control-label"></label>
+                <input asp-for="IDExpiryDate" class="form-control" />
+                <span asp-validation-for="IDExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PassIssueDate" class="control-label"></label>
+                <input asp-for="PassIssueDate" class="form-control" />
+                <span asp-validation-for="PassIssueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PassExpiryDate" class="control-label"></label>
+                <input asp-for="PassExpiryDate" class="form-control" />
+                <span asp-validation-for="PassExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

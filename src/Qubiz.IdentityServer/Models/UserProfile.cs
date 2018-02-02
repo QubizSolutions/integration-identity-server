@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Qubiz.IdentityServer.Models
         public ApplicationUser User { get; set; }
 
         public string Company { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:MM}")]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }

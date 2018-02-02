@@ -43,6 +43,8 @@ namespace Qubiz.IdentityServer.Data
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            //builder.UseSqlServer("Server=tcp:qubizidentity.database.windows.net,1433;Initial Catalog=Qubiz.Identity;Persist Security Info=False;User ID=qubiz_admin;Password=ky0V6WkAZ7Rf0CHTbPWG;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+            //    optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name));
             builder.UseSqlServer("Server=ST16;Initial Catalog=Qubiz.Identity;Persist Security Info=False;Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;",
                 optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(ApplicationDbContext).GetTypeInfo().Assembly.GetName().Name));
             return new ApplicationDbContext(builder.Options);

@@ -1,0 +1,121 @@
+﻿@model Qubiz.IdentityServer.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserProfile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SkypeID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SkypeID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractStartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ContractStartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkStartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WorkStartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CarModel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CarModel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CarRegistration)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CarRegistration)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TShirtSize)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TShirtSize)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IDIssueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IDIssueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IDExpiryDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IDExpiryDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassIssueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassIssueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassExpiryDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassExpiryDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

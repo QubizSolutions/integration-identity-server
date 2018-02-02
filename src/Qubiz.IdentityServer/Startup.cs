@@ -106,9 +106,10 @@ namespace Qubiz.IdentityServer
                 // Configure the OWIN pipeline to use OpenID Connect auth.
                 .AddOpenIdConnect("Azure", option =>
                 {
-                    option.ClientId = "123"; // Configuration["AzureAD:ClientId"];
-                    option.Authority = "https://login.microsoftonline.com/{0}"; // String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
-                    option.SignedOutRedirectUri = "123"; //Configuration["AzureAd:PostLogoutRedirectUri"];
+                    option.ClientId = "835f99c1-c38e-46e1-b2b1-f7487c7b6cd6"; // Configuration["AzureAD:ClientId"];
+                    option.Authority = "https://login.microsoftonline.com/172d1a6c-ec6f-48e9-bcef-2f4726401726/"; // String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
+                    option.SignedOutRedirectUri = "http://localhost:5000/"; //Configuration["AzureAd:PostLogoutRedirectUri"];
+                    //secret 2SElA9QbwJqS7fzk9M3poNP7ZUKwUmasvt40LkQ/fAo=
                 });
 
 
@@ -131,7 +132,7 @@ namespace Qubiz.IdentityServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();                     
                 app.UseBrowserLink();
             }
             else
@@ -143,7 +144,7 @@ namespace Qubiz.IdentityServer
 
             app.UseMiddleware<IndentDiscoveryDocumentJsonMiddleware>();
 
-            app.UseAuthentication();
+            app.UseAuthentication();        
 
             app.UseIdentityServer();
 
@@ -151,7 +152,7 @@ namespace Qubiz.IdentityServer
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
 
 

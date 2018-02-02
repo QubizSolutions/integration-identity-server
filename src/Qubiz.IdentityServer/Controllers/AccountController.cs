@@ -154,7 +154,7 @@ namespace Qubiz.IdentityServer.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -292,10 +292,11 @@ namespace Qubiz.IdentityServer.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 
                 var result = await AutoProvisionUserAsync(info.LoginProvider, info.ProviderKey, info.Principal.Claims);
+                
+                await ExternalLoginCallback();
 
                 //after creating the user redirect back to the external login callback to complete login
-                await ExternalLoginCallback();
-                return Redirect("~/Home");
+                return Redirect("~/Account/Login");
 
             }
 
